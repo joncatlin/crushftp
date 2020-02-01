@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  crushftp:
+    build:
+      context: ./crushftp
+      dockerfile: Dockerfile
+    image: crushftp:0.0.1
+    volumes:
+      - type: bind
+#      # This service is only meant to be deployed as a single copy because crush has not been configured to run as a 
+#      # HA configuration.
+        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1
+        target: /var/opt/CrushFTP9
+    ports:
+      - target: 21
+        published: 21
+      - target: 443
+        published: 443
+      - target: 2222
+        published: 2222
+      - target: 8080
+        published: 8080
+    networks:
+      - crushftp
+
+networks:
+  crushftp:
