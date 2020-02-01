@@ -9,6 +9,7 @@ if [[ ! -d /var/opt/CrushFTP9/users/MainUsers/crushadmin ]] ; then
     cd /var/opt/CrushFTP9 && java -jar /var/opt/CrushFTP9/CrushFTP.jar -a "crushadmin" "crushadmin"
 fi
 
+echo "Starting crush..."
 java -Xmx1024m -jar CrushFTP.jar -d
 # /var/opt/run-crushftp.sh start
 #while true; do sleep 86400; done

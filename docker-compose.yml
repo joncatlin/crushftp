@@ -1,3 +1,5 @@
+# TODO
+# 1. Determine the base requirements for mem etc for running crush ans set them in the compose file
 version: '3.7'
 
 services:
@@ -6,12 +8,12 @@ services:
       context: ./crushftp
       dockerfile: Dockerfile
     image: crushftp:0.0.1
-    volumes:
-      - type: bind
-#      # This service is only meant to be deployed as a single copy because crush has not been configured to run as a 
-#      # HA configuration.
-        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1
-        target: /var/opt/CrushFTP9
+#     volumes:
+#       - type: bind
+# #      # This service is only meant to be deployed as a single copy because crush has not been configured to run as a 
+# #      # HA configuration.
+#         source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1
+#         target: /var/opt/CrushFTP9
     ports:
       - target: 21
         published: 21
