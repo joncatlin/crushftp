@@ -1,6 +1,7 @@
 # TODO
 # 1. Determine the base requirements for mem etc for running crush ans set them in the compose file
 # 2. Determine how to have the Sophos endpoint protection check all incoming and outgoing files
+
 version: '3.7'
 
 services:
@@ -8,12 +9,17 @@ services:
     build:
       context: ./crushftp
       dockerfile: Dockerfile
+#      image: localhost:5000/crushftp:0.0.1
     image: crushftp:0.0.1
     volumes:
       # Persist user changes outside the container
       - type: bind
         source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/users
         target: /var/opt/CrushFTP9/users
+      # Persist user data for uploads and downloads outside the container
+      - type: bind
+        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/data
+        target: /data
       # Persist job changes outside the container
       - type: bind
         source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/jobs
@@ -24,8 +30,8 @@ services:
         target: /var/opt/CrushFTP9/backup
       # # Persist preference changes outside the container
       # - type: bind
-      #   source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.XML
-      #   target: /var/opt/CrushFTP9/prefs.XML
+      #   source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.saved.XML
+      #   target: /var/opt/CrushFTP9/prefs.saved.XML
     ports:
       - target: 21
         published: 21
@@ -35,13 +41,16 @@ services:
         published: 2222
       - target: 8080
         published: 8080
+      # Ports mapped for passive mode. These ports need to be setup in the crushFTP preferences
+      - "2000-2010"
     deploy:
       replicas: 1
       update_config:
         parallelism: 1
         delay: 30s
       restart_policy:
-        condition: all
+        condition: any
+      resources:
         limits:
           cpus: '0.50'
           memory: 1024M

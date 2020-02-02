@@ -7,3 +7,4 @@ fi
 # Start the crush service
 echo "Starting crush..."
 java -Xmx1024m -jar CrushFTP.jar -d
+
