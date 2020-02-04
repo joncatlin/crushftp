@@ -14,24 +14,29 @@ services:
     volumes:
       # Persist user changes outside the container
       - type: bind
-        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/users
+#        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/users
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/users
         target: /var/opt/CrushFTP9/users
       # Persist user data for uploads and downloads outside the container
       - type: bind
-        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/data
+#        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/data
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/data
         target: /data
       # Persist job changes outside the container
       - type: bind
-        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/jobs
+#        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/jobs
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/jobs
         target: /var/opt/CrushFTP9/jobs
       # Persist ackups changes outside the container
       - type: bind
-        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/backup
+#        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/backup
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/backup
         target: /var/opt/CrushFTP9/backup
-      # # Persist preference changes outside the container
-      # - type: bind
-      #   source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.saved.XML
-      #   target: /var/opt/CrushFTP9/prefs.saved.XML
+      # Persist preference changes outside the container
+      - type: bind
+#      source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.XML
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/prefs.XML
+        target: /var/opt/CrushFTP9/prefs.XML
     ports:
       - target: 21
         published: 21
