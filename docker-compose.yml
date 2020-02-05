@@ -32,11 +32,15 @@ services:
 #        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/backup
         source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/backup
         target: /var/opt/CrushFTP9/backup
-      # Persist preference changes outside the container
       - type: bind
-#      source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.XML
-        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/prefs.XML
-        target: /var/opt/CrushFTP9/prefs.XML
+#        source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/logs
+        source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/logs
+        target: /var/opt/CrushFTP9/logs
+      # Persist preference changes outside the container
+#       - type: bind
+# #      source: /mnt/swarm-shared/joncatlin-development/shared-volumes/crushftp-vol1/prefs.XML
+#         source: /mnt/shared_docker/joncatlin/shared-volumes/crushftp-vol1/prefs.XML
+#         target: /var/opt/CrushFTP9/prefs.XML
     ports:
       - target: 21
         published: 21
@@ -55,13 +59,14 @@ services:
         delay: 30s
       restart_policy:
         condition: any
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 1024M
-        reservations:
-          cpus: '0.25'
-          memory: 512M
+      # COMMENTED OUT FOR TESTING PURPOSES
+      # resources:
+      #   limits:
+      #     cpus: '0.50'
+      #     memory: 1024M
+      #   reservations:
+      #     cpus: '0.25'
+      #     memory: 512M
     networks:
       - crushftp
 

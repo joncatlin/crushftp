@@ -3,7 +3,7 @@
 FROM openjdk:latest
 
 # RUN apt-get update && apt-get upgrade && apt-get install -y --no-install-recommends unzip
-RUN yum -y install unzip
+RUN yum -y install unzip nano
 
 WORKDIR /var/opt
 
@@ -13,8 +13,7 @@ RUN useradd crushadmin && echo "crushadmin:A_Long_And-RubbishPAsWurd" | chpasswd
     mkdir /data
 
 # Copy the install package into the image
-#COPY --chown=crushadmin ./CrushFTP9.zip ./
-COPY ./CrushFTP9.zip ./
+COPY --chown=crushadmin ./CrushFTP9.zip ./
 
 # Unzip the install file and then remove it
 RUN unzip -q CrushFTP9.zip && rm CrushFTP9.zip
@@ -23,7 +22,7 @@ RUN unzip -q CrushFTP9.zip && rm CrushFTP9.zip
 # be overwritten with one from the host, supllied as a volume mapping. If the prefs.XML file is not 
 # removed then any changes to preferences when the container is running will not be persisted as the 
 # contianer copy takes precedence than the volume mapped one
-COPY ./startup.sh ./CrushFTP9/
+COPY ./startup.sh,./prefs.XML ./CrushFTP9/
 RUN chmod +x ./CrushFTP9/startup.sh
 
 # Change ownership of the install directory and all its contents, to the user who will
@@ -43,11 +42,11 @@ EXPOSE 9090
 EXPOSE 2000:2010
 
 # Expose the various points in the dir structure where persistent data is stored
-VOLUME /var/opt/CrushFTP9/users/
-VOLUME /var/opt/CrushFTP9/jobs/
-VOLUME /var/opt/CrushFTP9/backup/
+VOLUME /var/opt/CrushFTP9/users
+VOLUME /var/opt/CrushFTP9/jobs
+VOLUME /var/opt/CrushFTP9/backup
+VOLUME /var/opt/CrushFTP9/logs
 VOLUME /data
-# VOLUME /var/opt/CrushFTP9/prefs.XML
 
 # Startup the crush server
 ENTRYPOINT /var/opt/CrushFTP9/startup.sh
@@ -63,3 +62,4 @@ ENTRYPOINT /var/opt/CrushFTP9/startup.sh
 # 6. Use an Ubuntu image if the container keeps being problematic, to see if that changes anything
 # 7. Use unzip silent so all the files do not get displayed to stdout
 # 8. MUST Register license so that it saves the preferences to the prefs.XML file.
+# 9. put the /logs directory as a mapped volume so log files are stored outside of the container
